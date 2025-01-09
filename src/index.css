@@ -25,7 +25,8 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
   min-width: 320px;
   min-height: 100vh;
 }
@@ -67,9 +68,9 @@ button:focus-visible {
   }
 }
 
-
 .editor-content {
   font-family: 'Arial', sans-serif; /* Default font */
+  text-align: center; /* Center align text inside the editor */
 }
 
 .editor-content span {

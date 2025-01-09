@@ -17,26 +17,25 @@ const Editor = () => {
   });
 
   // Handle emoji selection from the picker
-  const handleEmojiSelect = (emojiObject,event) => {
-    // Debug: log the emoji object and ensure it has the correct data
-    console.log('Emoji selected:', emojiObject);
-    console.log('Emoji selected:', emojiObject.emoji);
-
-
-    // Insert the selected emoji into the editor at the current cursor position
+  const handleEmojiSelect = (emojiObject) => {
     if (editor) {
-        // Use insertContent to ensure the emoji is added to the editor content
-        editor.chain().focus().insertContent(emojiObject.emoji).run();
-        console.log('Editor content after emoji insert:', editor.getHTML());  // Log the editor's HTML
-        // Force a content update (may not be necessary but useful for debugging)
-        editor.view.updateState(editor.state);
-      }
-    setIsPickerVisible(false); // Hide the emoji picker after selecting an emoji
+      editor.chain().focus().insertContent(emojiObject.emoji).run();
+    }
+    // Close the emoji picker after selection
+    // setIsPickerVisible(false);
   };
 
   return (
-    <div>
-      <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+    <div style={{ position: 'relative' }}>
+      {/* Emoji Picker Toggle Button */}
+      <div
+        style={{
+          marginBottom: '10px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+        }}
+      >
         <button
           onClick={() => setIsPickerVisible((prev) => !prev)}
           style={{
@@ -54,13 +53,48 @@ const Editor = () => {
 
       {/* Show emoji picker when button is clicked */}
       {isPickerVisible && (
-        <div style={{ position: 'absolute', zIndex: 100, marginBottom: '10px' }}>
+        <div
+          style={{
+            position: 'absolute',
+            zIndex: 100,
+            background: '#FFF',
+            border: '1px solid #ddd',
+            borderRadius: '8px',
+            padding: '10px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          {/* Emoji Picker Component */}
           <EmojiPickerReact onEmojiClick={handleEmojiSelect} />
+
+          {/* Close Button */}
+          <button
+            onClick={() => setIsPickerVisible(false)}
+            style={{
+              marginTop: '10px',
+              background: '#FF4D4F',
+              color: '#FFF',
+              border: 'none',
+              padding: '5px 10px',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              width: '100%',
+            }}
+          >
+            Close Picker
+          </button>
         </div>
       )}
 
-      {/* Editor content area */}
-      <div style={{ border: '1px solid #ddd', padding: '10px', borderRadius: '4px' }}>
+      {/* Editor Content */}
+      <div
+        style={{
+          border: '1px solid #ddd',
+          padding: '10px',
+          borderRadius: '4px',
+          marginTop: '20px',
+        }}
+      >
         <EditorContent editor={editor} />
       </div>
     </div>
